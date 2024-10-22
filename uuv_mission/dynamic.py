@@ -79,6 +79,7 @@ class Mission:
     def from_csv(cls, file_path: str):
         (reference, cave_height, cave_depth) = pd.read_csv(file_path)
         return cls(reference, cave_height, cave_depth)
+    
 
     
 
@@ -97,13 +98,13 @@ class ClosedLoop:
         positions = np.zeros((T, 2))
         actions = np.zeros(T)
         self.plant.reset_state()
-        gains = np.array(0.15, 0.6)
+       
 
         for t in range(T):
             positions[t] = self.plant.get_position()
             observation_t = self.plant.get_depth()
             # Call your controller here
-            e_t = mission.reference - observation_t
+            e_t = mission.reference[t] - observation_t
             if t == T[0]:
                 e_t1 = 0 # error at the previous time step
             actions[t] = PDC.controller.control(self, e_t, e_t1)
