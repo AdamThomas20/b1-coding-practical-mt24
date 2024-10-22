@@ -76,8 +76,12 @@ class Mission:
         return cls(reference, cave_height, cave_depth)
 
     @classmethod
-    def from_csv(cls, file_path: str):
-        (reference, cave_height, cave_depth) = pd.read_csv(file_path)
+    def from_csv(cls, file_path: str):        
+        data = pd.read_csv(file_path)
+        # Ensure reference values are numeric and convert to numpy arrays
+        reference = data['reference'].astype(float).values
+        cave_height = data['cave_height'].astype(float).values
+        cave_depth = data['cave_depth'].astype(float).values
         return cls(reference, cave_height, cave_depth)
     
 
