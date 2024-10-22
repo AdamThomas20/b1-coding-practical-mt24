@@ -109,9 +109,9 @@ class ClosedLoop:
             observation_t = self.plant.get_depth()
             # Call your controller here
             e_t = mission.reference[t] - observation_t
-            if t == T[0]:
+            if t == 0:
                 e_t1 = 0 # error at the previous time step
-            actions[t] = PDC.controller.control(self, e_t, e_t1)
+            actions[t] = self.controller.control(e_t, e_t1)
             e_t1 = e_t
             self.plant.transition(actions[t], disturbances[t])
 
